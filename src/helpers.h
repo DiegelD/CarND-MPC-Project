@@ -1,26 +1,9 @@
 #ifndef HELPERS_H
 #define HELPERS_H
 
-#include <string>
 #include "Eigen-3.3/Eigen/Core"
 
 using Eigen::VectorXd;
-using std::string;
-
-// Checks if the SocketIO event has JSON data.
-// If there is data the JSON object in string format will be returned,
-// else the empty string "" will be returned.
-string hasData(string s) {
-  auto found_null = s.find("null");
-  auto b1 = s.find_first_of("[");
-  auto b2 = s.rfind("}]");
-  if (found_null != string::npos) {
-    return "";
-  } else if (b1 != string::npos && b2 != string::npos) {
-    return s.substr(b1, b2 - b1 + 2);
-  }
-  return "";
-}
 
 //
 // Helper functions to fit and evaluate polynomials.
