@@ -6,15 +6,19 @@ Self-Driving Car Engineer Nanodegree Program
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
 The project contains a Model Predictiv Controler (MPC) that controls a vehicle lognitudinal and lateral behaviour by getting the Cross Track Error (CTE) of the posisition and the rotation error from a simulator and calculating out from there with costfunctions the desired balanced driving path for the feature steps. So the challenge here contain folowing steps. 
-*1) Implementing the MPC in C++:
-    1) Transforming the simulation global input to vehicle cordinates 
-    2) Creating Cross Track Error
-    3) Compensate the System-Latency (100ms)
-    5) Model Update (Kinematic Equations)
-    6) Create Model Constrains
+* 1) Implementing the MPC in C++:
+    1 Transforming the simulation global input to vehicle cordinates 
+    2 Creating Cross Track Error
+    3 Compensate the System-Latency (100ms)
+    5 Model Update (Kinematic Equations)
+    6 Create Model Constrains
 * 2) Tuning the Costfunction for a smooth path
-    1) Costfuntions 
-    2) Plotting Errors for Debugging and tuning 
+    1 Costfuntions 
+    2 Plotting Errors for Debugging and tuning 
+* 3) Appendix
+    1 Dependencies
+    2 Build instruction
+    3  Additional study information
     
 ---
 # 1) Function Development
@@ -151,7 +155,8 @@ For this project, following cost functions are used:
 </figure>
  <p></p>
 
-## Dependencies
+## 3) Appendix 
+### 3.1 Dependencies
 
 * cmake >= 3.5
  * All OSes: [click here for installation instructions](https://cmake.org/install/)
@@ -179,24 +184,14 @@ For this project, following cost functions are used:
 * Not a dependency but read the [DATA.md](./DATA.md) for a description of the data sent back from the simulator.
 
 
-## Basic Build Instructions
+### 3.2 Basic Build Instructions
 
 1. Clone this repo.
 2. Make a build directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./mpc`.
 
-## Tips
-
-1. The MPC is recommended to be tested on examples to see if implementation behaves as desired. One possible example
-is the vehicle offset of a straight line (reference). If the MPC implementation is correct, it tracks the reference line after some timesteps(not too many).
-2. The `lake_track_waypoints.csv` file has waypoints of the lake track. This could fit polynomials and points and see of how well your model tracks curve. NOTE: This file might be not completely in sync with the simulator so your solution should NOT depend on it.
-3. For visualization this C++ [matplotlib wrapper](https://github.com/lava/matplotlib-cpp) could be helpful.)
-4.  Tips for setting up your environment are available [here](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/f758c44c-5e40-4e01-93b5-1a82aa4e044f/concepts/23d376c7-0195-4276-bdf0-e02f1f3c665d)
-5. **VM Latency:** Some students have reported differences in behavior using VM's ostensibly a result of latency.  Please let us know if issues arise as a result of a VM environment.
-
-
-## Additional study material
+### 3.3 Additional study material
 
 Here are some resources you might want to refer to for more insight on the subject matter of this project, this resources are listed from this [Readme](https://github.com/MarkBroerkens/CarND-MPC-Project/blob/master/README.md).
 
