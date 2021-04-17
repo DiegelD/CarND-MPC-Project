@@ -21,7 +21,7 @@ The project contains a Model Predictiv Controler (MPC) that controls a vehicle l
 In the folllowing are the high lights of the project are presented for on overview. For more details feel free to check the code. 
 
 ### 1.1 Translation & Rotation 
-The car posistion is given in global cordination. To transform them into car cordination a translation and rotaion is done by these [equation](// http://planning.cs.uiuc.edu/node99.html)
+The car posistion is given in global cordination. To transform them into car cordination a translation and rotaion is done by these [equation](http://planning.cs.uiuc.edu/node99.html)
  
  ```c
    for (int i = 0; i < ptsx.size(); i++) {
@@ -121,24 +121,25 @@ For this project, following cost functions are used:
 
 	//Cost related to the reference state.
 	for (unsigned int t = 0; t < N; t++) {
-		fg[0] += 10000*CppAD::pow(vars[cte_start + t], 2); 
-		fg[0] += 10000*CppAD::pow(vars[epsi_start + t], 2); 
-		fg[0] += 5*CppAD::pow(vars[v_start + t] - ref_v, 2); 
+		fg[0] += 500000*CppAD::pow(vars[cte_start + t], 2); 
+		fg[0] +=  50000*CppAD::pow(vars[epsi_start + t], 2); 
+		fg[0] +=  10000*CppAD::pow(vars[v_start + t] - ref_v, 2); 
 	}
 
 	//Minimize the use of actuators.
 	for (unsigned int t = 0; t < N - 1; t++) {
 		//Increase the cost depending on the steering angle
-	 	fg[0] += 250*CppAD::pow((vars[delta_start + t]/(0.436332*Lf))*vars[a_start + t], 2);
-		fg[0] += 50*CppAD::pow(vars[delta_start + t], 2);
+	 	fg[0] += 50*CppAD::pow((vars[delta_start + t]/(0.436332*Lf))*vars[a_start + t], 2);
+		fg[0] +=       CppAD::pow(vars[delta_start + t], 2);
 	}
 
 	//Minimize the value gap between sequential actuations.
 	for (unsigned int t = 0; t < N - 2; t++) {
-		fg[0] += 5*CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2); 
-		fg[0] += 5*CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2); 
+		fg[0] += 1000 *CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2); 
+		fg[0] +=            CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2); 
 	}
 ```
+Data Evaluation over predication steps that fill one track.
 
 <figure>
  <img src="./img/Plot1_Round.png" width="850" alt="data amout plot" />
