@@ -2,6 +2,7 @@
 Self-Driving Car Engineer Nanodegree Program
 
 ---
+
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
 The project contains a Model Predictiv Controler (MPC) that controls a vehicle lognitudinal and lateral behaviour by getting the Cross Track Error (CTE) of the posisition and the rotation error from a simulator and calculating out from there with costfunctions the desired balanced driving path for the feature steps. So the challenge here contain folowing steps. 
@@ -36,7 +37,7 @@ The car posistion is given in global cordination. To transform them into car cor
 ###  1.2 Calculating CTE & Rotaion Error
 We can express the error between the center of the road and the vehicle's position as the cross track error (CTE).  Assuming the reference line is a polynomial f, f(xt)f(x_t) f(xt​) is our reference line and our CTE at the current state is defined as:
 
-![equation](https://latex.codecogs.com/svg.image?\bg_white&space;cte_{t}=f(x_{t})-y_{t}" title="\bg_white cte_{t}=f(x_{t})-y_{t})
+![equation](https://latex.codecogs.com/gif.latex?\bg_white&space;cte_{t}=f(x_{t})-y_{t}" title="\bg_white cte_{t}=f(x_{t})-y_{t})
 
 ctet=f(xt)−ytcte_t = f(x_t) - y_t ctet​=f(xt​)−yt
 
