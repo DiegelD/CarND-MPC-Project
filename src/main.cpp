@@ -87,6 +87,7 @@ int main() {
           // Need to shif into coordinate system of the car.
           vector<double> car_points_x;
           vector<double> car_points_y;
+
           for (int i = 0; i < ptsx.size(); i++) {
             double x_shift = ptsx[i] - px;
             double y_shift = ptsy[i] - py;
@@ -222,8 +223,7 @@ int main() {
   });
 
   // We don't need this since we're not using HTTP but if it's removed the
-  // program
-  // doesn't compile :-(
+  // program compile
   h.onHttpRequest([](uWS::HttpResponse *res, uWS::HttpRequest req, char *data,
                      size_t, size_t) {
     const std::string s = "<h1>Hello world!</h1>";

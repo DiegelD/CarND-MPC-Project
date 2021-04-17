@@ -13,7 +13,7 @@ using Eigen::VectorXd;
 /**
  * TODO: Set the timestep length and duration
  */
-size_t N = 11;
+size_t N = 10;
 double dt = 0.1;
 
 // This value assumes the model presented in the classroom is used.
@@ -233,7 +233,7 @@ std::vector<double> MPC::Solve(const VectorXd &state, const VectorXd &coeffs) {
   vars_lowerbound[delta_start] = prev_delta;
   vars_upperbound[delta_start] = prev_delta;
 
-  for ( i = delta_start + 1 ; i < a_start; i++)  // Hierpassst etwas nicht 
+  for ( i = delta_start + 1 ; i < a_start; i++)  //
   {
     vars_lowerbound[i] = -0.436332;
     vars_upperbound[i] = 0.436332;
