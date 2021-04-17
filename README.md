@@ -6,15 +6,15 @@ Self-Driving Car Engineer Nanodegree Program
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
 The project contains a Model Predictiv Controler (MPC) that controls a vehicle lognitudinal and lateral behaviour by getting the Cross Track Error (CTE) of the posisition and the rotation error from a simulator and calculating out from there with costfunctions the desired balanced driving path for the feature steps. So the challenge here contain folowing steps. 
-* Implementing the MPC in C++:
+*1) Implementing the MPC in C++:
     1) Transforming the simulation global input to vehicle cordinates 
     2) Creating Cross Track Error
     3) Compensate the System-Latency (100ms)
     5) Model Update (Kinematic Equations)
     6) Create Model Constrains
-* Tuning the Costfunction for a smooth path
+* 2) Tuning the Costfunction for a smooth path
     1) Costfuntions 
-    1) Plotting Errors for Debugging and tuning 
+    2) Plotting Errors for Debugging and tuning 
     
 ---
 # 1) Function Development
@@ -110,9 +110,9 @@ The goal of Model Predictive Control is to optimize the control inputs: [δ,a][\
  ![equation](https://latex.codecogs.com/gif.latex?\[\delta_{1},&space;\alpha_{1},\delta_{2},&space;\alpha_{2}...,\delta_{N-1},&space;\alpha_{N-1}\])
 
 ## 2) Costfunctions & Tuning
- 
- The cost functions are used to get a desired vehicle behaviour, designing this ones is difficult and getting to cooperate to produce a reasonable vehicle behaviour is hard. Some difficulties are to solve problems wiout unsolving the old ones. To make the results of the tuning visable plot, figure 2.1, is unsed. The CTE gradient shows a steady and fast changing error in the system. An further tweak of the related costfunction could smoothen the behaviour. Anyhow the car is most of the time quiet stabel with out big steering intervention, if thery are happening the transistion is smooth and never steep, thats positiv. In a further tuning the last small shakings between the 100 - 130 predictions scould be more adjused. Last but not least the car never stops and the velocity is ocelating in the upper third between 50-90 mph anyhow with steep changs. If desired in further tuning this could also be more adjust.
- 
+ ### 2.1 Costfunction
+ The cost functions are used to get a desired vehicle behaviour, designing this ones is difficult and getting to cooperate to produce a reasonable vehicle behaviour is hard. Some difficulties are to solve problems wiout unsolving the old ones. 
+  
 ![equation](http://latex.codecogs.com/gif.latex?J%20%3D%20%5Csum%5E%7BN%7D_%7Bt%3D1%7D%5B%28cte_t%20-%20cte_%7Bref%7D%29%5E2%20&plus;%20%28e%5Cpsi_t%20-%20e%5Cpsi_%7Bref%7D%29%5E2%20&plus;%20...%5D)
 
 For this project, following cost functions are used:
@@ -139,7 +139,8 @@ For this project, following cost functions are used:
 		fg[0] +=            CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2); 
 	}
 ```
-Data Evaluation over predication steps that fill one track.
+ ### 2.2 Tuning
+ To make the results of the tuning visable plot, figure 2.1, is unsed. The CTE gradient shows a steady and fast changing error in the system. An further tweak of the related costfunction could smoothen the behaviour. Anyhow the car is most of the time quiet stabel with out big steering intervention, if thery are happening the transistion is smooth and never steep, thats positiv. In a further tuning the last small shakings between the 100 - 130 predictions scould be more adjused. Last but not least the car never stops and the velocity is ocelating in the upper third between 50-90 mph anyhow with steep changs. If desired in further tuning this could also be more adjust.
 
 <figure>
  <img src="./img/Plot1_Round.png" width="850" alt="data amout plot" />
