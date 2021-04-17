@@ -2,6 +2,152 @@
 Self-Driving Car Engineer Nanodegree Program
 
 ---
+[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+
+The project contains a Model Predictiv Controler (MPC) that controls a vehicle lognitudinal and lateral behaviour by getting the Cross Track Error (CTE) of the posisition and the rotation error from a simulator and calculating out from there with costfunctions the desired balanced driving path for the feature steps. So the challenge here contain folowing steps. 
+* Implementing the MPC in C++:
+    1) Transforming the simulation global input to vehicle cordinates 
+    2) Creating Cross Track Error
+    3) Compensate the System-Latency (100ms)
+    5) Model Update (Kinematic Equations)
+    6) Create Model Constrains
+* Tuning the Costfunction for a smooth path
+    1) Costfuntions 
+    1) Plotting Errors for Debugging and tuning 
+    
+---
+# 1) Function Development
+In the folllowing are the high lights of the project are presented for on overview. For more details feel free to check the code. 
+
+### 1.1 Translation & Rotation 
+The car posistion is given in global cordination. To transform them into car cordination a translation and rotaion is done by these [equation](// http://planning.cs.uiuc.edu/node99.html)
+ 
+ ```c
+   for (int i = 0; i < ptsx.size(); i++) {
+            double x_shift = ptsx[i] - px;
+            double y_shift = ptsy[i] - py;
+            
+            // http://planning.cs.uiuc.edu/node99.html
+            car_points_x.push_back(x_shift * cos(psi) + y_shift * sin(psi));
+            car_points_y.push_back(y_shift * cos(psi) - x_shift * sin(psi));
+          }
+```
+
+###  1.2 Calculating CTE & Rotaion Error
+We can express the error between the center of the road and the vehicle's position as the cross track error (CTE).  Assuming the reference line is a polynomial f, f(xt)f(x_t) f(xt​) is our reference line and our CTE at the current state is defined as:
+
+![equation](https://latex.codecogs.com/svg.image?\bg_white&space;cte_{t}=f(x_{t})-y_{t}" title="\bg_white cte_{t}=f(x_{t})-y_{t})
+
+ctet=f(xt)−ytcte_t = f(x_t) - y_t ctet​=f(xt​)−yt
+
+ ```c
+          // Fit 3rd order polynomials to waypoints. Fits most streets
+          auto coeffs = polyfit(car_points_x_eigen, car_points_y_eigen, 3);
+
+          // Cross Track Error CTE
+          // positive value: too far to the right, negative too far to the left
+          double cte = polyeval(coeffs, 0);
+
+          // positive value: to far to the left, negative too far to the right
+          double epsi = -atan(coeffs[1]);
+```
+
+### 1.3 Latency
+In a real car, an actuation command won't execute instantly - there will be a delay as the command propagates through the system. A realistic delay might be on the order of 100 milliseconds. (This is also integreated into the simulator to make it as realistic as possible)
+This is a problem called "latency", and it's a difficult challenge for some controllers - like a PID controller - to overcome. But a Model Predictive Controller can adapt quite well because we can model this latency in the system. A contributing factor to latency is actuator dynamics. For example the time elapsed between when you command a steering angle to when that angle is actually achieved. This could easily be modeled by a simple dynamic system and incorporated into the vehicle model.  To overcome this, the vehicle model calculates the fitting state after the latency. So that the actuator actually dont have a latency.
+
+Thus, MPC can deal with latency much more effectively, by explicitly taking it into account, than a PID controller.
+
+Here the code for the start of the prediction of the MPC, to overcome the latency:
+```c
+dt = 0.1;
+x1    = v * cos(0) * dt;
+y1    = v * sin(0) * dt;
+psi1  = - v/Lf * steer_value * dt;
+v1    = throttle_value * dt;
+cte1  =   v * sin(epsi1) * dt;
+epsi1 = - v * steer_value / Lf * dt;	
+```
+
+### 1.4 Prediction Horizon
+
+The prediction horizon is the duration over which future predictions are made. We’ll refer to this as T. T is the product of two other variables, ``N`` and ``dt``. ``N`` is the number of timesteps in the horizon. ``dt`` is how much time elapses between actuations. A good setting with the first shoot is  ``N`` were 10 and ``dt`` were 0.1, then T would be 1 seconds. A general guidline is that T should be as large as possible, while ``dt`` should be as small as possible. For this shoot dt=0.1 is choosen, since this is the latency time and we currently make no difference in the timesteps we calculate the the model.  And T bigger than 1s didnt show any improevements. 
+
+MPC attempts to approximate a continuous reference trajectory by means of discrete paths between actuations. Larger values of dt result in less frequent actuations, which makes it harder to accurately approximate a continuous reference trajectory. This is sometimes called "discretization error".
+
+### 1.5 State
+
+The state consists of sytem variables and errors references: ``[x,y,psi,v,cte,epsi]``. ``x`` and ``y`` stand for the vehicle position, ``psi`` the vehicle orientation, ``v`` the vehicle speed and finally, ``cte`` and ``epsi`` stand for the cross track error and orientation error of the vehicle related to the reference.
+
+### 1.6 Model (Update equations)
+
+The followind equations updates the prediction model at every timestep:
+
+![equation](http://latex.codecogs.com/gif.latex?x_%28t&plus;1%29%20%3D%20x_t%20&plus;%20v_t%20*%20cos%28%5Cpsi_t%29*dt)
+
+![equation](http://latex.codecogs.com/gif.latex?y_%28t&plus;1%29%20%3D%20y_t%20&plus;%20v_t%20*%20sin%28%5Cpsi_t%29*dt)
+
+![equation](http://latex.codecogs.com/gif.latex?%5Cpsi%20_%28t&plus;1%29%20%3D%20%5Cpsi%20_t%20&plus;%20%5Cfrac%7Bv_t%7D%7BL_f%7D*%20%5Cdelta_t%20*%20dt)
+
+![equation](http://latex.codecogs.com/gif.latex?v_%28t&plus;1%29%20%3D%20v%20_t%20&plus;%20a_t%20*%20dt)
+
+![equation](http://latex.codecogs.com/gif.latex?cte_%28t&plus;1%29%20%3D%20f%28x_t%29%20-%20y_t%20&plus;%20v%20_t%20*%20sin%28e%5Cpsi%20_t%29%20*%20dt)
+
+![equation](http://latex.codecogs.com/gif.latex?e%5Cpsi%20_%28t&plus;1%29%20%3D%20%5Cpsi%20_t%20-%20%5Cpsi%20dest%20&plus;%20%5Cfrac%7Bv_f%7D%7BL_f%7D%20*%20%5Cdelta_t%20*%20dt)
+
+``Lf`` measures the distance between the front of the vehicle and its center of gravity. ``f(x)`` is the evaluation of the polynomial ``f`` at point x and ``psidest`` is the tangencial angle of the polynomial ``f`` evaluated at x.
+
+### 1.7 Constraints
+
+The actuators constraints limits the upper and lower bounds of the steering angle and throttle acceleration/brake.
+
+![equation](http://latex.codecogs.com/gif.latex?%5Cdelta%20%5Cepsilon%20%5B-25%5E%7B%5Ccirc%7D%2C%2025%5E%7B%5Ccirc%7D%5D)
+
+![equation](http://latex.codecogs.com/gif.latex?a%20%5Cepsilon%20%5B-1%2C%201%5D)
+
+The goal of Model Predictive Control is to optimize the control inputs: [δ,a][\delta, a][δ,a]. An optimizer will tune these inputs until a low cost vector of control inputs is found. The length of this vector is determined by N:
+ 
+ ![equation](https://latex.codecogs.com/svg.image?\bg_white&space;[\delta_{1},&space;\alpha_{1},\delta_{2},&space;\alpha_{2}...,\delta_{N-1},&space;\alpha_{N-1}]" title="\bg_white [\delta_{1}, \alpha_{1},\delta_{2}, \alpha_{2}...,\delta_{N-1}, \alpha_{N-1}])
+
+## 2) Costfunctions & Tuning
+ 
+ The cost functions are used to get a desired vehicle behaviour, designing this ones is difficult and getting to cooperate to produce a reasonable vehicle behaviour is hard. Some difficulties are to solve problems wiout unsolving the old ones. To make the results of the tuning visable plot, figure 2.1, is unsed. The CTE gradient shows a steady and fast changing error in the system. An further tweak of the related costfunction could smoothen the behaviour. Anyhow the car is most of the time quiet stabel with out big steering intervention, if thery are happening the transistion is smooth and never steep, thats positiv. In a further tuning the last small shakings between the 100 - 130 predictions scould be more adjused. Last but not least the car never stops and the velocity is ocelating in the upper third between 50-90 mph anyhow with steep changs. If desired in further tuning this could also be more adjust.
+ 
+![equation](http://latex.codecogs.com/gif.latex?J%20%3D%20%5Csum%5E%7BN%7D_%7Bt%3D1%7D%5B%28cte_t%20-%20cte_%7Bref%7D%29%5E2%20&plus;%20%28e%5Cpsi_t%20-%20e%5Cpsi_%7Bref%7D%29%5E2%20&plus;%20...%5D)
+
+For this project, following cost functions are used:
+
+```c
+
+	//Cost related to the reference state.
+	for (unsigned int t = 0; t < N; t++) {
+		fg[0] += 10000*CppAD::pow(vars[cte_start + t], 2); 
+		fg[0] += 10000*CppAD::pow(vars[epsi_start + t], 2); 
+		fg[0] += 5*CppAD::pow(vars[v_start + t] - ref_v, 2); 
+	}
+
+	//Minimize the use of actuators.
+	for (unsigned int t = 0; t < N - 1; t++) {
+		//Increase the cost depending on the steering angle
+	 	fg[0] += 250*CppAD::pow((vars[delta_start + t]/(0.436332*Lf))*vars[a_start + t], 2);
+		fg[0] += 50*CppAD::pow(vars[delta_start + t], 2);
+	}
+
+	//Minimize the value gap between sequential actuations.
+	for (unsigned int t = 0; t < N - 2; t++) {
+		fg[0] += 5*CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2); 
+		fg[0] += 5*CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2); 
+	}
+```
+
+<figure>
+ <img src="./img/Plot1_Round.png" width="850" alt="data amout plot" />
+ <figcaption>
+ <p></p> 
+ <p style="text-align: center;"> Fig. 2.1: Data Evaluation, CTE-Error, Steering angle delta and last vehicle velocity</p> 
+ </figcaption>
+</figure>
+ <p></p>
 
 ## Dependencies
 
@@ -38,15 +184,6 @@ Self-Driving Car Engineer Nanodegree Program
 3. Compile: `cmake .. && make`
 4. Run it: `./mpc`.
 
-## Build with Docker-Compose
-The docker-compose can run the project into a container
-and exposes the port required by the simulator to run.
-
-1. Clone this repo.
-2. Build image: `docker-compose build`
-3. Run Container: `docker-compose up`
-4. On code changes repeat steps 2 and 3.
-
 ## Tips
 
 1. The MPC is recommended to be tested on examples to see if implementation behaves as desired. One possible example
@@ -82,35 +219,3 @@ for instructions and the project rubric.
 
 * You don't have to follow this directory structure, but if you do, your work
   will span all of the .cpp files here. Keep an eye out for TODOs.
-
-## Call for IDE Profiles Pull Requests
-
-Help your fellow students!
-
-We decided to create Makefiles with cmake to keep this project as platform
-agnostic as possible. We omitted IDE profiles to ensure
-students don't feel pressured to use one IDE or another.
-
-However! I'd love to help people get up and running with their IDEs of choice.
-If you've created a profile for an IDE you think other students would
-appreciate, we'd love to have you add the requisite profile files and
-instructions to ide_profiles/. For example if you wanted to add a VS Code
-profile, you'd add:
-
-* /ide_profiles/vscode/.vscode
-* /ide_profiles/vscode/README.md
-
-The README should explain what the profile does, how to take advantage of it,
-and how to install it.
-
-Frankly, I've never been involved in a project with multiple IDE profiles
-before. I believe the best way to handle this would be to keep them out of the
-repo root to avoid clutter. Most profiles will include
-instructions to copy files to a new location to get picked up by the IDE, but
-that's just a guess.
-
-One last note here: regardless of the IDE used, every submitted project must
-still be compilable with cmake and make./
-
-## How to write a README
-A well written README file can enhance your project and portfolio and develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
