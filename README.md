@@ -39,7 +39,7 @@ We can express the error between the center of the road and the vehicle's positi
 
 ![equation](https://latex.codecogs.com/gif.latex?cte_{t}=f(x_{t})-y_{t})
 
-
+In code:
  ```c
           // Fit 3rd order polynomials to waypoints. Fits most streets
           auto coeffs = polyfit(car_points_x_eigen, car_points_y_eigen, 3);
