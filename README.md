@@ -107,7 +107,7 @@ The actuators constraints limits the upper and lower bounds of the steering angl
 
 The goal of Model Predictive Control is to optimize the control inputs: [δ,a][\delta, a][δ,a]. An optimizer will tune these inputs until a low cost vector of control inputs is found. The length of this vector is determined by N:
  
- ![equation](https://latex.codecogs.com/svg.image?[\delta_{1},&space;\alpha_{1},\delta_{2},&space;\alpha_{2}...,\delta_{N-1},&space;\alpha_{N-1}]" title="[\delta_{1}, \alpha_{1},\delta_{2}, \alpha_{2}...,\delta_{N-1}, \alpha_{N-1}])
+ ![equation](https://latex.codecogs.com/gif.latex?\[delta_{1},&space;\alpha_{1},\delta_{2},&space;\alpha_{2}...,\delta_{N-1},&space;\alpha_{N-1}\])
 
 ## 2) Costfunctions & Tuning
  
