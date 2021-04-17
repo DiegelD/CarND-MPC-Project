@@ -5,15 +5,15 @@ Self-Driving Car Engineer Nanodegree Program
 
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
-The project contains a Model Predictiv Controler (MPC) that controls a vehicle lognitudinal and lateral behaviour by getting the Cross Track Error (CTE) of the posisition and the rotation error from a simulator and calculating out from there with costfunctions the desired balanced driving path for the feature steps. So the challenge here contain folowing steps. 
+The project contains a Model Predictive Controller (MPC) that controls a vehicle longitudinal and lateral behavior by getting the Cross Track Error (CTE) of the position as well as the rotation error from a simulator and calculating out from there with cost-functions the desired balanced driving path for the feature steps. So the MPC-Project contains following steps. 
 1. Implementing the MPC in C++:
-    1. Transforming the simulation global input to vehicle cordinates 
+    1. Transforming the simulation global input to vehicle coordinates 
     2. Creating Cross Track Error
     3. Compensate the System-Latency (100ms)
     5.  Model Update (Kinematic Equations)
     6.  Create Model Constrains
-2. Tuning the Costfunction for a smooth path
-    1. Costfuntions 
+2. Tuning the Cost-function for a smooth path
+    1. Cost-functions 
     2. Plotting Errors for Debugging and tuning 
 3.  Appendix
     1. Dependencies
@@ -22,10 +22,10 @@ The project contains a Model Predictiv Controler (MPC) that controls a vehicle l
     
 ---
 # 1) Function Development
-In the folllowing are the high lights of the project are presented for on overview. For more details feel free to check the code. 
+In the following are the high lights of the project are presented for on overview. For more details feel free to check the code. 
 
 ### 1.1 Translation & Rotation 
-The car posistion is given in global cordination. To transform them into car cordination a translation and rotaion is done by these [equation](http://planning.cs.uiuc.edu/node99.html).
+The car position is given in global coordination. To transform them into car coordination a translation and rotation is done by these [equation](http://planning.cs.uiuc.edu/node99.html).
  
  ```c
    for (int i = 0; i < ptsx.size(); i++) {
@@ -38,8 +38,8 @@ The car posistion is given in global cordination. To transform them into car cor
           }
 ```
 
-###  1.2 Calculating CTE & Rotaion Error
-We can express the error between the center of the road and the vehicle's position as the cross track error (CTE).  Assuming the reference line is a polynomial f, f(xt)f(x_t) f(xt​) is our reference line and our CTE at the current state is defined as:
+###  1.2 Calculating CTE & Rotation Error
+We can express the error between the center off the road and the vehicle's position as the cross track error (CTE).  Assuming the reference line is a polynomial f, f(xt)f(x_t) f(xt​) is our reference line and our CTE at the current state is defined as:
 
 ![equation](https://latex.codecogs.com/gif.latex?cte_{t}=f(x_{t})-y_{t})
 
@@ -57,10 +57,10 @@ In code:
 ```
 
 ### 1.3 Latency
-In a real car, an actuation command won't execute instantly - there will be a delay as the command propagates through the system. A realistic delay might be on the order of 100 milliseconds. (This is also integreated into the simulator to make it as realistic as possible)
-This is a problem called "latency", and it's a difficult challenge for some controllers - like a PID controller - to overcome. But a Model Predictive Controller can adapt quite well because we can model this latency in the system. A contributing factor to latency is actuator dynamics. For example the time elapsed between when you command a steering angle to when that angle is actually achieved. This could easily be modeled by a simple dynamic system and incorporated into the vehicle model.  To overcome this, the vehicle model calculates the fitting state after the latency. So that the actuator actually dont have a latency.
+In a real car, an actuation command won't execute instantly - there will be a delay as the command propagates through the system. A realistic delay might be on the order of 100 milliseconds. (This is also integrated into the simulator to make it as realistic as possible)
+This is a problem called "latency", and it's a difficult challenge for some controllers - like a PID controller - to overcome. But a Model Predictive Controller can adapt quite well because we can model this latency in the system. A contributing factor to latency is actuator dynamics. For example the time elapsed between when you command a steering angle to when that angle is actually achieved. This could easily be modeled by a simple dynamic system and incorporated into the vehicle model.  To overcome this, the vehicle model calculates the fitting state after the latency. So that the actuator actually don't have a latency.
 
-Thus, MPC can deal with latency much more effectively, by explicitly taking it into account, than a PID controller.
+Thus, MPC can deal with latency much more effectively, by explicitly taking it into account, then a PID controller.
 
 Here the code for the start of the prediction of the MPC, to overcome the latency:
 ```c
@@ -75,17 +75,17 @@ epsi1 = - v * steer_value / Lf * dt;
 
 ### 1.4 Prediction Horizon
 
-The prediction horizon is the duration over which future predictions are made. We’ll refer to this as T. T is the product of two other variables, ``N`` and ``dt``. ``N`` is the number of timesteps in the horizon. ``dt`` is how much time elapses between actuations. A good setting with the first shoot is  ``N`` were 10 and ``dt`` were 0.1, then T would be 1 seconds. A general guidline is that T should be as large as possible, while ``dt`` should be as small as possible. For this shoot dt=0.1 is choosen, since this is the latency time and we currently make no difference in the timesteps we calculate the the model.  And T bigger than 1s didnt show any improevements. 
+The prediction horizon is the duration over which future predictions are made. We’ll refer to this as T. T is the product of two other variables, ``N`` and ``dt``. ``N`` is the number of time-steps in the horizon. ``dt`` is how much time elapses between actuations. A good setting with the first shoot is  ``N`` were 10 and ``dt`` were 0.1, then T would be 1 seconds. A general guideline is that T should be as large as possible, while ``dt`` should be as small as possible. For this shoot dt=0.1 is chosen, since this is the latency time and we currently make no difference in the time-steps we calculate the the model.  And T bigger than 1s didn't show any improvements. 
 
 MPC attempts to approximate a continuous reference trajectory by means of discrete paths between actuations. Larger values of dt result in less frequent actuations, which makes it harder to accurately approximate a continuous reference trajectory. This is sometimes called "discretization error".
 
 ### 1.5 State
 
-The state consists of sytem variables and errors references: ``[x,y,psi,v,cte,epsi]``. ``x`` and ``y`` stand for the vehicle position, ``psi`` the vehicle orientation, ``v`` the vehicle speed and finally, ``cte`` and ``epsi`` stand for the cross track error and orientation error of the vehicle related to the reference.
+The state consists of system variables and errors references: ``[x,y,psi,v,cte,epsi]``. ``x`` and ``y`` stand for the vehicle position, ``psi`` the vehicle orientation, ``v`` the vehicle speed and finally, ``cte`` and ``epsi`` stand for the cross track error and orientation error of the vehicle related to the reference.
 
 ### 1.6 Model (Update equations)
 
-The followind equations updates the prediction model at every timestep:
+The following equations updates the prediction model at every time-step:
 
 ![equation](http://latex.codecogs.com/gif.latex?x_%28t&plus;1%29%20%3D%20x_t%20&plus;%20v_t%20*%20cos%28%5Cpsi_t%29*dt)
 
@@ -99,7 +99,7 @@ The followind equations updates the prediction model at every timestep:
 
 ![equation](http://latex.codecogs.com/gif.latex?e%5Cpsi%20_%28t&plus;1%29%20%3D%20%5Cpsi%20_t%20-%20%5Cpsi%20dest%20&plus;%20%5Cfrac%7Bv_f%7D%7BL_f%7D%20*%20%5Cdelta_t%20*%20dt)
 
-``Lf`` measures the distance between the front of the vehicle and its center of gravity. ``f(x)`` is the evaluation of the polynomial ``f`` at point x and ``psidest`` is the tangencial angle of the polynomial ``f`` evaluated at x.
+``Lf`` measures the distance between the front of the vehicle and its center of gravity. ``f(x)`` is the evaluation of the polynomial ``f`` at point x and ``psidest`` is the tangential angle of the polynomial ``f`` evaluated at x.
 
 ### 1.7 Constraints
 
@@ -113,9 +113,9 @@ The goal of Model Predictive Control is to optimize the control inputs: [δ,a][\
  
  ![equation](https://latex.codecogs.com/gif.latex?\[\delta_{1},&space;\alpha_{1},\delta_{2},&space;\alpha_{2}...,\delta_{N-1},&space;\alpha_{N-1}\])
 
-## 2) Costfunctions & Tuning
+## 2) Cost-functions & Tuning
  ### 2.1 Costfunction
- The cost functions are used to get a desired vehicle behaviour, designing this ones is difficult and getting to cooperate to produce a reasonable vehicle behaviour is hard. Some difficulties are to solve problems wiout unsolving the old ones. 
+ The cost functions are used to get a desired vehicle behavior, designing this ones is difficult and getting to cooperate to produce a reasonable vehicle behavior is hard. Some difficulties are to solve problems without unsolving the old ones. 
   
 ![equation](http://latex.codecogs.com/gif.latex?J%20%3D%20%5Csum%5E%7BN%7D_%7Bt%3D1%7D%5B%28cte_t%20-%20cte_%7Bref%7D%29%5E2%20&plus;%20%28e%5Cpsi_t%20-%20e%5Cpsi_%7Bref%7D%29%5E2%20&plus;%20...%5D)
 
@@ -144,7 +144,7 @@ For this project, following cost functions are used:
 	}
 ```
  ### 2.2 Tuning
- To make the results of the tuning visable plot, figure 2.1, is unsed. The CTE gradient shows a steady and fast changing error in the system. An further tweak of the related costfunction could smoothen the behaviour. Anyhow the car is most of the time quiet stabel with out big steering intervention, if thery are happening the transistion is smooth and never steep, thats positiv. In a further tuning the last small shakings between the 100 - 130 predictions scould be more adjused. Last but not least the car never stops and the velocity is ocelating in the upper third between 50-90 mph anyhow with steep changs. If desired in further tuning this could also be more adjust.
+ To make the results of the tuning visible plot, figure 2.1, is used. The CTE gradient shows a steady and fast changing error in the system. A further tweak of the related cost-function could smoothen the behavior. Anyhow the car is most of the time quite stable with out big steering intervention, if they are happening the transition is smooth and never steep, thats positiv. In a further tuning the last small shakings between the 100 - 130 predictions should be more adjusted. Last but not least the car never stops and the velocity is oscillating in the upper third between 50-90 mph anyhow with steep changes. If desired in further tuning this could also be more adjust.
 
 <figure>
  <img src="./img/Plot1_Round.png" width="850" alt="data amout plot" />
