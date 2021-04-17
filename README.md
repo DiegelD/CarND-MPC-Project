@@ -37,7 +37,7 @@ The car posistion is given in global cordination. To transform them into car cor
 ###  1.2 Calculating CTE & Rotaion Error
 We can express the error between the center of the road and the vehicle's position as the cross track error (CTE).  Assuming the reference line is a polynomial f, f(xt)f(x_t) f(xt​) is our reference line and our CTE at the current state is defined as:
 
-![equation](https://latex.codecogs.com/gif.latex?\cte_{t}=f(x_{t})-y_{t}\)
+![equation](https://latex.codecogs.com/gif.latex?\[cte_{t}=f(x_{t})-y_{t}\])
 
 
  ```c
