@@ -21,7 +21,7 @@ The project contains a Model Predictiv Controler (MPC) that controls a vehicle l
 In the folllowing are the high lights of the project are presented for on overview. For more details feel free to check the code. 
 
 ### 1.1 Translation & Rotation 
-The car posistion is given in global cordination. To transform them into car cordination a translation and rotaion is done by these [equation](http://planning.cs.uiuc.edu/node99.html)
+The car posistion is given in global cordination. To transform them into car cordination a translation and rotaion is done by these [equation](http://planning.cs.uiuc.edu/node99.html).
  
  ```c
    for (int i = 0; i < ptsx.size(); i++) {
@@ -220,3 +220,20 @@ for instructions and the project rubric.
 
 * You don't have to follow this directory structure, but if you do, your work
   will span all of the .cpp files here. Keep an eye out for TODOs.
+  
+  
+## Additional study material
+
+Here are some resources you might want to refer to for more insight on the subject matter of this project, this resources are listed from this [Readme](https://github.com/MarkBroerkens/CarND-MPC-Project/blob/master/README.md).
+
+* [MPC Overview, Selection of Design and Tuning Parameters](http://www.cc.ntut.edu.tw/~jcjeng/Model%20Predictive%20Control.pdf)
+* [Multivariable, Model-Predictive Advanced Process Controller](https://minds.wisconsin.edu/handle/1793/10886)
+* [Tutorial overview of model predictive control 1](https://minds.wisconsin.edu/handle/1793/10886)
+* [Linear Model Predictive Control Stability and Robustness](http://www.control.isy.liu.se/research/reports/LicentiateThesis/Lic866.pdf)
+* [Course on Model Predictive Control Part II – Linear MPC design 1](http://www.centropiaggio.unipi.it/sites/default/files/course/material/2_MPCcourse_linearMPC_design.pdf)
+* [A Tutorial on Model Predictive Control for Spacecraft Rendezvous 2](https://www.repository.cam.ac.uk/bitstream/handle/1810/247957/Hartley%202015%20European%20Control%20Conference%202015.pdf?sequence=1&isAllowed=y)
+* [Explicit Model Predictive Control](https://www.kirp.chtf.stuba.sk/pc11/data/workshops/mpc/MPC_PC11_Lecture2.pdf)
+* [Model predictive control, Prof. Alberto Bemporad](http://cse.lab.imtlucca.it/~bemporad/teaching/ac/pdf/AC2-10-MPC.pdf)
+* [A Lecture on Model Predictive Control 2](http://cepac.cheme.cmu.edu/pasilectures/lee/LecturenoteonMPC-JHL.pdf)
+* [A tutorial review of economic model predictive control methods 1](http://www.sciencedirect.com/science/article/pii/S0959152414000900)
+* [Model Predictive Control (MPC), Bo Bernhardsson and Karl Johan Åström, Department of Automatic Control LTH, Lund University 1](http://www.control.lth.se/media/Education/DoctorateProgram/2016/Control%20System%20Synthesis/MPC.pdf)
