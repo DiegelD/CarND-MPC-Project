@@ -6,16 +6,16 @@ Self-Driving Car Engineer Nanodegree Program
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
 The project contains a Model Predictiv Controler (MPC) that controls a vehicle lognitudinal and lateral behaviour by getting the Cross Track Error (CTE) of the posisition and the rotation error from a simulator and calculating out from there with costfunctions the desired balanced driving path for the feature steps. So the challenge here contain folowing steps. 
-* 1) Implementing the MPC in C++:
+1. Implementing the MPC in C++:
     1 Transforming the simulation global input to vehicle cordinates 
     2 Creating Cross Track Error
     3 Compensate the System-Latency (100ms)
     5 Model Update (Kinematic Equations)
     6 Create Model Constrains
-* 2) Tuning the Costfunction for a smooth path
+2. Tuning the Costfunction for a smooth path
     1 Costfuntions 
     2 Plotting Errors for Debugging and tuning 
-* 3) Appendix
+3.  Appendix
     1 Dependencies
     2 Build instruction
     3  Additional study information
