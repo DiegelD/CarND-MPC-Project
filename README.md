@@ -27,6 +27,7 @@ In the following are the high lights of the project are presented for on overvie
 ### 1.1 Translation & Rotation 
 The car position is given in global coordination. To transform them into car coordination a translation and rotation is done by these [equation](http://planning.cs.uiuc.edu/node99.html).
  
+ File `main.cpp` line 91.
  ```c
    for (int i = 0; i < ptsx.size(); i++) {
             double x_shift = ptsx[i] - px;
@@ -43,7 +44,7 @@ We can express the error between the center off the road and the vehicle's posit
 
 ![equation](https://latex.codecogs.com/gif.latex?cte_{t}=f(x_{t})-y_{t})
 
-In code:
+File  'main.cpp' line 105.
  ```c
           // Fit 3rd order polynomials to waypoints. Fits most streets
           auto coeffs = polyfit(car_points_x_eigen, car_points_y_eigen, 3);
@@ -62,7 +63,7 @@ This is a problem called "latency", and it's a difficult challenge for some cont
 
 Thus, MPC can deal with latency much more effectively, by explicitly taking it into account, then a PID controller.
 
-Here the code for the start of the prediction of the MPC, to overcome the latency:
+Here the code (file main.cpp line 125) for the start of the prediction of the MPC, to overcome the latency:
 ```c
 dt = 0.1;
 x1    = v * cos(0) * dt;
@@ -119,7 +120,7 @@ The goal of Model Predictive Control is to optimize the control inputs: [δ,a][\
   
 ![equation](http://latex.codecogs.com/gif.latex?J%20%3D%20%5Csum%5E%7BN%7D_%7Bt%3D1%7D%5B%28cte_t%20-%20cte_%7Bref%7D%29%5E2%20&plus;%20%28e%5Cpsi_t%20-%20e%5Cpsi_%7Bref%7D%29%5E2%20&plus;%20...%5D)
 
-For this project, following cost functions are used:
+For this project, following cost functions (file MPC.cpp line 63)are used:
 
 ```c
 
