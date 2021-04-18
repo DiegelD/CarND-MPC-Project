@@ -8,10 +8,10 @@ Self-Driving Car Engineer Nanodegree Program
 The project contains a Model Predictive Controller (MPC) that controls a vehicle longitudinal and lateral behavior by getting the Cross Track Error (CTE) of the position as well as the rotation error from a simulator and calculating out from there with cost-functions the desired balanced driving path for the feature steps. So the MPC-Project contains following steps. 
 1. Implementing the MPC in C++:
     1. Transforming the simulation global input to vehicle coordinates 
-    2. Creating Cross Track Error
+    2. Cross Track Error & Rotation Error
     3. Compensate the System-Latency (100ms)
     5.  Model Update (Kinematic Equations)
-    6.  Create Model Constrains
+    6.  Model Constrains
 2. Tuning the Cost-function for a smooth path
     1. Cost-functions 
     2. Plotting Errors for Debugging and tuning 
