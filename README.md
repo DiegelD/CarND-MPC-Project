@@ -5,6 +5,15 @@ Self-Driving Car Engineer Nanodegree Program
 
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
+<figure>
+ <img src="./img/example_mpc_track.png" width="850" alt="data amout plot" />
+ <figcaption>
+ <p></p> 
+ <p style="text-align: center;">Model Predictive Controller in the Simulator. Yellow the vehicle path and in green the controller commands. </p> 
+ </figcaption>
+</figure>
+ <p></p>
+
 The project contains a Model Predictive Controller (MPC) that controls a vehicle longitudinal and lateral behavior by getting the Cross Track Error (CTE) of the position as well as the rotation error from a simulator and calculating out from there with cost-functions the desired balanced driving path for the feature steps. The Project contains following steps. 
 1. Implementing the MPC in C++:
     1. Transforming the simulation global input to vehicle coordinates 
