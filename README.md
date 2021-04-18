@@ -9,7 +9,7 @@ Self-Driving Car Engineer Nanodegree Program
  <img src="./img/example_mpc_track.png" width="850" alt="data amout plot" />
  <figcaption>
  <p></p> 
- <p style="text-align: center;">Img: _Model Predictive Controller in the Simulator. Yellow the vehicle path and in green the controller commands_. </p> 
+ <p style="text-align: center;">Img: Model Predictive Controller in the Simulator. Yellow the vehicle path and in green the controller commands. </p> 
  </figcaption>
 </figure>
  <p></p>
