@@ -9,7 +9,7 @@ Self-Driving Car Engineer Nanodegree Program
  <img src="./img/example_mpc_track.png" width="850" alt="data amout plot" />
  <figcaption>
  <p></p> 
- <p style="text-align: center;">Img: Model Predictive Controller in the Simulator. Yellow the vehicle path and in green the controller commands. </p> 
+ <p style="text-align: center;">Img: *Model Predictive Controller in the Simulator. Yellow the vehicle path and in green the controller commands.* </p> 
  </figcaption>
 </figure>
  <p></p>
@@ -161,7 +161,7 @@ For this project, following cost functions (file 'MPC.cpp' line 63)are used:
  <img src="./img/Plot1_Round.png" width="850" alt="data amout plot" />
  <figcaption>
  <p></p> 
- <p style="text-align: center;"> Fig. 2.1: Data Evaluation, CTE-Error, Steering angle delta and last vehicle velocity</p> 
+ <p style="text-align: center;"> Fig. 2.1: *Data Evaluation, CTE-Error, Steering angle delta and last vehicle velocity.*</p> 
  </figcaption>
 </figure>
  <p></p>
