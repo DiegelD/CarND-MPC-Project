@@ -155,13 +155,13 @@ For this project, following cost functions (file 'MPC.cpp' line 63)are used:
 	}
 ```
  ### 2.2 Tuning
- To make the results of the tuning visible a plot, figure 2.1, is used. The CTE gradient shows a steady and fast changing error in the system. A further tweak of the related cost-function could smoothen the behavior. Anyhow the car is most of the time quite stable with out big steering intervention, second plot. If they are happening the transition is smooth and never steep, thats positiv. In a further tuning the last small shakings between the 100 - 130 predictions should be more adjusted. Last but not least the last plot shows that the car never stops and the velocity is oscillating in the upper third between 50-90 mph anyhow with steep changes. If desired in further tuning this could also be more adjust.
+ To make the results of the tuning visible the plot down, figure 2.1, is used.  The CTE gradient shows a steady and fast changing error in the system. A further tweak of the related cost-function could smoothen the behavior. Anyhow the car is most of the time quite stable with out big steering intervention, second plot. If they are happening the transition is smooth and never steep, thats positiv. In a further tuning the last small shakings between the 100 - 130 predictions should be more adjusted. Last but not least the last plot shows that the car never stops and the velocity is oscillating in the upper third between 50-90 mph anyhow with steep changes. If desired in further tuning this could also be more adjust.
 
 <figure>
  <img src="./img/Plot1_Round.png" width="850" alt="data amout plot" />
  <figcaption>
  <p></p> 
- <p style="text-align: center;"> Fig. 2.1: *Data Evaluation, CTE-Error, Steering angle delta and last vehicle velocity.*</p> 
+ <p style="text-align: center;"> Fig. 2.1: Data Evaluation, CTE-Error, Steering angle delta and last vehicle velocity over the predictions / program runs. 250 program runs equal one track round.</p> 
  </figcaption>
 </figure>
  <p></p>
