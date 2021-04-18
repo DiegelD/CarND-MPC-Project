@@ -130,7 +130,7 @@ The goal of Model Predictive Control is to optimize the control inputs: [δ,a]. 
   
 ![equation](http://latex.codecogs.com/gif.latex?J%20%3D%20%5Csum%5E%7BN%7D_%7Bt%3D1%7D%5B%28cte_t%20-%20cte_%7Bref%7D%29%5E2%20&plus;%20%28e%5Cpsi_t%20-%20e%5Cpsi_%7Bref%7D%29%5E2%20&plus;%20...%5D)
 
-For this project, following cost functions (file 'MPC.cpp' line 63)are used:
+For this project, following cost functions (file `MPC.cpp` line 63)are used:
 
 ```c
 
