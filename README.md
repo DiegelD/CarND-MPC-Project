@@ -43,10 +43,10 @@ So we constantly calculating inputs over a feature horizon. This is why this app
 excatly. So once we perfomed our actuation commands, our trajectory may not be exactly the same as
 the trajectory we predicted.So it cruital that we constantly re-evaluating to find the optimal actions.
 
-# 1) Function Development
+# 2) Function Development
 In the following are the high lights of the project are presented for on overview. For more details feel free to check the code in the repository.
 
-### 1.1 Translation & Rotation 
+### 2.1 Translation & Rotation 
 The car position is given in global coordination. To transform them into car coordination a translation and rotation is done by these [equation](http://planning.cs.uiuc.edu/node99.html).
  
  File `main.cpp` line 91.
@@ -61,7 +61,7 @@ The car position is given in global coordination. To transform them into car coo
           }
 ```
 
-###  1.2 Calculating CTE & Orientation Error
+###  2.2 Calculating CTE & Orientation Error
 We can express the error between the center off the road and the vehicle's position as the cross track error (CTE).  Assuming the reference line is a polynomial function and our CTE at the current state is defined as:
 
 ![equation](https://latex.codecogs.com/gif.latex?cte_{t}=f(x_{t})-y_{t})
@@ -79,7 +79,7 @@ File  `main.cpp`line 105.
           double epsi = -atan(coeffs[1]);
 ```
 
-### 1.3 Latency
+### 2.3 Latency
 In a real car, an actuation command won't execute instantly - there will be a delay as the command propagates through the system. A realistic delay might be on the order of 100 milliseconds. (This is also integrated into the simulator to make it as realistic as possible).
 This is a problem called "latency", and it's a difficult challenge for some controllers - like a PID controller - to overcome. But a Model Predictive Controller can adapt quite well because we can model this latency in the system. A contributing factor to latency is actuator dynamics. For example the time elapsed between when you command a steering angle to when that angle is actually achieved. This could easily be modeled by a simple dynamic system and incorporated into the vehicle model.  To overcome this, the vehicle model calculates the fitting state after the latency. So that the actuator actually don't have a latency.
 
@@ -96,18 +96,18 @@ cte1  =   v * sin(epsi1) * dt;
 epsi1 = - v * steer_value / Lf * dt;	
 ```
 
-### 1.4 Prediction Horizon
+### 2.4 Prediction Horizon
 
 The prediction horizon is the duration over which future predictions are made. We’ll refer to this as T. T is the product of two other variables, ``N`` and ``dt``. ``N`` is the number of time-steps in the horizon. ``dt`` is how much time elapses between actuations. A good setting with the first shoot is  ``N`` were 10 and ``dt`` were 0.1, then T would be 1 seconds. 
 * A general guideline is that T should be as large as possible, while ``dt`` should be as small as possible. For this shoot dt=0.1 is chosen, since this is the latency time and we currently make no difference in the time-steps we calculate the the model.  And T bigger than 1s didn't show any improvements. 
 
 MPC attempts to approximate a continuous reference trajectory by means of discrete paths between actuations. Larger values of dt result in less frequent actuations, which makes it harder to accurately approximate a continuous reference trajectory. This is sometimes called "discretization error".
 
-### 1.5 State
+### 2.5 State
 
 The state consists of system variables and errors references: ``[x,y,psi,v,cte,epsi]``. ``x`` and ``y`` stand for the vehicle position, ``psi`` the vehicle orientation, ``v`` the vehicle speed and finally, ``cte`` and ``epsi`` stand for the cross track error and orientation error of the vehicle related to the reference.
 
-### 1.6 Model (Update equations)
+### 2.6 Model (Update equations)
 
 The following equations updates the prediction model at every time-step:
 
@@ -125,7 +125,7 @@ The following equations updates the prediction model at every time-step:
 
 ``Lf`` measures the distance between the front of the vehicle and its center of gravity. ``f(x)`` is the evaluation of the polynomial ``f`` at point x and ``psidest`` is the tangential angle of the polynomial ``f`` evaluated at x.
 
-### 1.7 Constraints
+### 2.7 Constraints
 
 The actuators constraints limits the upper and lower bounds of the steering angle and throttle acceleration/brake.
 
@@ -137,8 +137,8 @@ The goal of Model Predictive Control is to optimize the control inputs: [δ,a]. 
  
  ![equation](https://latex.codecogs.com/gif.latex?\[\delta_{1},&space;\alpha_{1},\delta_{2},&space;\alpha_{2}...,\delta_{N-1},&space;\alpha_{N-1}\])
 
-## 2) Cost-functions & Tuning
- ### 2.1 Costfunction
+## 3) Cost-functions & Tuning
+ ### 3.1 Costfunction
  The cost functions are used to get a desired vehicle behavior. Designing them is difficult and 
  getting them to cooperate to produce a reasonable vehicle behavior 
  is even harder. One of the challenges is to solve problems without unsolving the old ones. So in
@@ -171,7 +171,7 @@ For this project, following cost functions (file `MPC.cpp` line 63)are used:
 		fg[0] +=            CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2); 
 	}
 ```
- ### 2.2 Tuning
+ ### 3.2 Tuning
  To make the results of the tuning visible the plot down, figure 2.1, is used. 
 The CTE gradient shows a steady and fast changing error in the system. A further tweak of the 
 related cost-function could smoothen the behavior. Anyhow the car is most of the time quite stable 
@@ -190,8 +190,8 @@ If desired in further tuning this could also be more adjust.
 </figure>
  <p></p>
 
-## 3) Appendix 
-### 3.1 Dependencies
+## 4) Appendix 
+### 4.1 Dependencies
 
 * cmake >= 3.5
  * All OSes: [click here for installation instructions](https://cmake.org/install/)
@@ -219,14 +219,14 @@ If desired in further tuning this could also be more adjust.
 * Not a dependency but read the [DATA.md](./DATA.md) for a description of the data sent back from the simulator.
 
 
-### 3.2 Basic Build Instructions
+### 4.2 Basic Build Instructions
 
 1. Clone this repo.
 2. Make a build directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./mpc`.
 
-### 3.3 Additional study information
+### 4.3 Additional study information
 
 Here are some resources you might want to refer to for more insight on the subject matter of this project, this resources are listed from this [Readme](https://github.com/MarkBroerkens/CarND-MPC-Project/blob/master/README.md).
 #### Research
