@@ -1,35 +1,48 @@
 # CarND-Controls-MPC
 Self-Driving Car Engineer Nanodegree Program
-
+[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 ---
 
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+![](./img/mpc.gif)
 
-<figure>
- <img src="./img/example_mpc_track.png" width="850" alt="data amout plot" />
- <figcaption>
- <p></p> 
- <p style="text-align: center;">Img: Model Predictive Controller in the Simulator. Yellow the vehicle path and in green the controller commands. </p> 
- </figcaption>
-</figure>
- <p></p>
 
+Overview
+---
 The project contains a Model Predictive Controller (MPC) that controls a vehicle longitudinal and lateral behavior by getting the Cross Track Error (CTE) of the position as well as the rotation error from a simulator and calculating out from there with cost-functions the desired balanced driving path for the feature steps. The Project contains following steps. 
-1. Implementing the MPC in C++:
+1. Intro Model Predicitv Control
+2. Implementing the MPC in C++:
     1. Transforming the simulation global input to vehicle coordinates 
     2. Cross Track Error & Orientation Error
     3. Compensate the System-Latency (100ms)
     5.  Model Update (Kinematic Equations)
     6.  Model Constrains
-2. Tuning the Cost-function for a smooth path
+3. Tuning the Cost-function for a smooth path
     1. Cost-functions 
     2. Plotting Errors for Debugging and tuning 
-3.  Appendix
+4.  Appendix
     1. Dependencies
     2. Build instruction
     3.  Additional study information
     
 ---
+# 1) Intro Model Predicitve Control
+This Controller reframes the task of trajectgory folowing as an optimisation problem. The solution 
+to the optimization is the optimal trajectory. Model Predicitve Control involves simulating different
+actuator inputs, predicting the resulting trajectory and selecting the trajectory with the minimal cost. 
+
+broadly spoken, we know our current state and the refernce trajectory we want to follow. We optimize 
+our actuator inputs of each time step in order to minimize the cost of our predicited trajectory.
+
+As soon the lowest cost trajectory is found, the very first set of acutation commands is implemented and the rest 
+of the trajectory is throwen away.  And we begin to calculate again the optimal trajectory from our 
+current state. 
+So we constantly calculating inputs over a feature horizon. This is why this approach is some times calles 
+*Receding Horizont Control*
+
+*Why we are constantly predicing the trajector* its because the model is wont match the real world 
+excatly. So once we perfomed our actuation commands, our trajectory may not be exactly the same as
+the trajectory we predicted.So it cruital that we constantly re-evaluating to find the optimal actions.
+
 # 1) Function Development
 In the following are the high lights of the project are presented for on overview. For more details feel free to check the code in the repository.
 
@@ -126,7 +139,11 @@ The goal of Model Predictive Control is to optimize the control inputs: [δ,a]. 
 
 ## 2) Cost-functions & Tuning
  ### 2.1 Costfunction
- The cost functions are used to get a desired vehicle behavior. Designing them is difficult and getting them to cooperate to produce a reasonable vehicle behavior is even harder. One of the challenges is to solve problems without unsolving the old ones. So in code production these is done by regression test for every situation, to check of the desired behavior is there still the same.
+ The cost functions are used to get a desired vehicle behavior. Designing them is difficult and 
+ getting them to cooperate to produce a reasonable vehicle behavior 
+ is even harder. One of the challenges is to solve problems without unsolving the old ones. So in
+ code production these is done by regression test for every situation, to check of the desired
+ behavior is there still the same.
   
 ![equation](http://latex.codecogs.com/gif.latex?J%20%3D%20%5Csum%5E%7BN%7D_%7Bt%3D1%7D%5B%28cte_t%20-%20cte_%7Bref%7D%29%5E2%20&plus;%20%28e%5Cpsi_t%20-%20e%5Cpsi_%7Bref%7D%29%5E2%20&plus;%20...%5D)
 
@@ -155,7 +172,14 @@ For this project, following cost functions (file `MPC.cpp` line 63)are used:
 	}
 ```
  ### 2.2 Tuning
- To make the results of the tuning visible the plot down, figure 2.1, is used.  The CTE gradient shows a steady and fast changing error in the system. A further tweak of the related cost-function could smoothen the behavior. Anyhow the car is most of the time quite stable with out big steering intervention, second plot. If they are happening the transition is smooth and never steep, thats positiv. In a further tuning the last small shakings between the 100 - 130 predictions should be more adjusted. Last but not least the last plot shows that the car never stops and the velocity is oscillating in the upper third between 50-90 mph anyhow with steep changes. If desired in further tuning this could also be more adjust.
+ To make the results of the tuning visible the plot down, figure 2.1, is used. 
+The CTE gradient shows a steady and fast changing error in the system. A further tweak of the 
+related cost-function could smoothen the behavior. Anyhow the car is most of the time quite stable 
+with out big steering intervention, second plot. If they are happening the transition is smooth 
+and never steep, thats positiv. In a further tuning the last small shakings between the 100 - 130 
+predictions should be more adjusted. Last but not least the last plot shows that the car never 
+stops and the velocity is oscillating in the upper third between 50-90 mph anyhow with steep changes.
+If desired in further tuning this could also be more adjust.
 
 <figure>
  <img src="./img/Plot1_Round.png" width="850" alt="data amout plot" />
@@ -202,10 +226,16 @@ For this project, following cost functions (file `MPC.cpp` line 63)are used:
 3. Compile: `cmake .. && make`
 4. Run it: `./mpc`.
 
-### 3.3 Additional study material
+### 3.3 Additional study information
 
 Here are some resources you might want to refer to for more insight on the subject matter of this project, this resources are listed from this [Readme](https://github.com/MarkBroerkens/CarND-MPC-Project/blob/master/README.md).
+#### Research
+* Model Predictive Control (MPC)[Kinematic and Dynamic Vehicle Models for Autonomous Driving Control Design](https://www.researchgate.net/publication/308851864_Kinematic_and_dynamic_vehicle_models_for_autonomous_driving_control_design)
+* Model Predictive Control (MPC) [Vision-Based High Speed Driving with a Deep Dynamic Observer](https://arxiv.org/abs/1812.02071)
+* Reinforcement Learning-based [Reinforcement Learning and Deep Learning based Lateral Control for Autonomous Driving](https://arxiv.org/abs/1810.12778)
+* Behavioral Cloning [ChauffeurNet: Learning to Drive by Imitating the Best and Synthesizing the Worst]() 
 
+#### Study
 * [MPC Overview, Selection of Design and Tuning Parameters](http://www.cc.ntut.edu.tw/~jcjeng/Model%20Predictive%20Control.pdf)
 * [Multivariable, Model-Predictive Advanced Process Controller](https://minds.wisconsin.edu/handle/1793/10886)
 * [Tutorial overview of model predictive control 1](https://minds.wisconsin.edu/handle/1793/10886)
