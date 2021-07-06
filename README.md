@@ -203,7 +203,6 @@ If desired in further tuning this could also be more adjust.
 
 ## 4) Appendix 
 ### 4.1 Dependencies
-
 * cmake >= 3.5
  * All OSes: [click here for installation instructions](https://cmake.org/install/)
 * make >= 4.1(mac, linux), 3.81(Windows)
@@ -232,20 +231,19 @@ If desired in further tuning this could also be more adjust.
 
 ### 4.2 Basic Build Instructions
 
-1. Clone this repo.
+1. Clone this repo
 2. Make a build directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
-4. Run it: `./mpc`.
+4. Run it: `./mpc`
 
 ### 4.3 Additional study information
-
-Here are some resources you might want to refer to for more insight on the subject matter of this project, this resources are listed from this [Readme](https://github.com/MarkBroerkens/CarND-MPC-Project/blob/master/README.md).
 #### Research
-* Model Predictive Control (MPC)[Kinematic and Dynamic Vehicle Models for Autonomous Driving Control Design](https://www.researchgate.net/publication/308851864_Kinematic_and_dynamic_vehicle_models_for_autonomous_driving_control_design)
+* Model Predictive Control (MPC) [Kinematic and Dynamic Vehicle Models for Autonomous Driving Control Design](https://www.researchgate.net/publication/308851864_Kinematic_and_dynamic_vehicle_models_for_autonomous_driving_control_design)
 * Model Predictive Control (MPC) [Vision-Based High Speed Driving with a Deep Dynamic Observer](https://arxiv.org/abs/1812.02071)
 * Reinforcement Learning-based [Reinforcement Learning and Deep Learning based Lateral Control for Autonomous Driving](https://arxiv.org/abs/1810.12778)
 * Behavioral Cloning [ChauffeurNet: Learning to Drive by Imitating the Best and Synthesizing the Worst]() 
 
+Here are some resources you might want to refer to for more insight on the subject matter of this project, this resources are listed from this [Readme](https://github.com/MarkBroerkens/CarND-MPC-Project/blob/master/README.md).
 #### Study
 * [MPC Overview, Selection of Design and Tuning Parameters](http://www.cc.ntut.edu.tw/~jcjeng/Model%20Predictive%20Control.pdf)
 * [Multivariable, Model-Predictive Advanced Process Controller](https://minds.wisconsin.edu/handle/1793/10886)
