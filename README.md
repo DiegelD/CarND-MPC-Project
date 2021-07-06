@@ -57,10 +57,9 @@ excatly. So once we perfomed our actuation commands, our trajectory may not be e
 the trajectory we predicted.So it cruital that we constantly re-evaluating to find the optimal actions.
 
 # 2) Function Development
-In the following are the high lights of the project are presented for on overview. For more details feel free to check the code in the repository.
-
 ### 2.1 Translation & Rotation 
-The car position is given in global coordination. To transform them into car coordination a translation and rotation is done by these [equation](http://planning.cs.uiuc.edu/node99.html).
+The car position is given in global coordination. To transform them into car coordination a 
+translation and rotation is done by these [equation](http://planning.cs.uiuc.edu/node99.html).
  
  File `main.cpp` line 91.
  ```c
@@ -75,7 +74,9 @@ The car position is given in global coordination. To transform them into car coo
 ```
 
 ###  2.2 Calculating CTE & Orientation Error
-We can express the error between the center off the road and the vehicle's position as the cross track error (CTE).  Assuming the reference line is a polynomial function and our CTE at the current state is defined as:
+We can express the error between the center off the road and the vehicle's position as the cross 
+track error (CTE).  Assuming the reference line is a polynomial function and our CTE at the current state 
+is defined as:
 
 ![equation](https://latex.codecogs.com/gif.latex?cte_{t}=f(x_{t})-y_{t})
 
