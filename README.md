@@ -16,6 +16,10 @@ error and the rotation error from a simulator as input and controls the **vehicl
 
 Watch here the controller in [action](https://www.youtube.com/watch?v=gvt5LfMT3KU).
 
+```diff
++ - line -> vehicle optimized trajectory
+! - line -> reference trajectory
+```
 
 Overview
 ---
