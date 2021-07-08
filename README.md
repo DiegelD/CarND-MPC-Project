@@ -60,7 +60,7 @@ same as the trajectory we predicted. So its crucial to re-evaluating constantly,
 **Some advantages over other controllers**:<br />
 - Easier computation than steady-state optimal control
 - Greater adaptability to parametric changes than infinite horizon control
-- Better tracking than PID and good constraint handling among others.
+- Better tracking than PID and good constraint handling among others
 
 # 2) Function Development
 ### 2.1 Translation & Rotation 
