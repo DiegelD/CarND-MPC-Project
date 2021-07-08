@@ -57,6 +57,11 @@ Furthermore we are constantly predicting the trajectory, because the model wont 
 world exactly. So once we performed our actuation commands, our trajectory may not be exactly the 
 same as the trajectory we predicted. So its crucial to re-evaluating constantly, to find the optimal actions.
 
+*Some advantages over other controllers*:<br />
+- Easier computation than steady-state optimal control
+- Greater adaptability to parametric changes than infinite horizon control
+- Better tracking than PID and good constraint handling among others.
+
 # 2) Function Development
 ### 2.1 Translation & Rotation 
 The car position is given in global coordination. To transform them into car coordination a 
