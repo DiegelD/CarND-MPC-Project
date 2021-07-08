@@ -200,7 +200,7 @@ If desired in further tuning this could also be more adjust.
  <img src="./img/Plot1_Round.png" width="850" alt="data amout plot" />
  <figcaption>
  <p></p> 
- <p style="text-align: center;"> Fig. 2.1: Data Evaluation, CTE-Error, Steering angle delta and last vehicle velocity over the predictions / program runs. 250 program runs equal one track round.</p> 
+ <p style="text-align: center;"> Fig. 3.1: Data Evaluation, CTE-Error, Steering angle delta and last vehicle velocity over the predictions / program runs. 250 program runs equal one track round.</p> 
  </figcaption>
 </figure>
  <p></p>
