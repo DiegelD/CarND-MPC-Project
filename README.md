@@ -39,22 +39,23 @@ The project contains a Model Predictive Controller (MPC) that controls a vehicle
     
 ---
 # 1) Intro Model Predicitve Control
-This Controller reframes the task of trajectgory folowing as an optimisation problem. The solution 
-to the optimization is the optimal trajectory. Model Predicitve Control involves simulating different
-actuator inputs, predicting the resulting trajectory and selecting the trajectory with the minimal cost. 
+The Model Predictive Controller, reframes the task of trajectory following as an optimization 
+problem. The solution to the optimization is the optimal trajectory. Model Predictive Control 
+involves simulating different actuator inputs, predicting the resulting trajectory and selecting 
+the trajectory with the minimal cost.
 
-broadly spoken, we know our current state and the refernce trajectory we want to follow. We optimize 
-our actuator inputs of each time step in order to minimize the cost of our predicited trajectory.
+Broadly spoken, it knows the current state and the reference trajectory we want to follow. 
+We optimize our actuator inputs of each time step in order to minimize the cost of our predicted 
+trajectory.
 
-As soon the lowest cost trajectory is found, the very first set of acutation commands is implemented and the rest 
-of the trajectory is throwen away.  And we begin to calculate again the optimal trajectory from our 
-current state. 
-So we constantly calculating inputs over a feature horizon. This is why this approach is some times calles 
-*Receding Horizont Control*
+As soon the lowest cost trajectory is found, the very first set of actuation commands is 
+implemented and the rest of the trajectory is thrown away. And we begin to calculate again the
+optimal trajectory from our current state. So we constantly calculating inputs over a feature 
+horizon. This is why this approach is some times called *„Receding Horizont Control“*.
 
-*Why we are constantly predicing the trajector* its because the model is wont match the real world 
-excatly. So once we perfomed our actuation commands, our trajectory may not be exactly the same as
-the trajectory we predicted.So it cruital that we constantly re-evaluating to find the optimal actions.
+Furthermore we are constantly predicting the trajectory, because the model wont match the real
+world exactly. So once we performed our actuation commands, our trajectory may not be exactly the 
+same as the trajectory we predicted. So its crucial to re-evaluating constantly, to find the optimal actions.
 
 # 2) Function Development
 ### 2.1 Translation & Rotation 
