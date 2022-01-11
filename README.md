@@ -6,7 +6,7 @@ Self-Driving Car Engineer Nanodegree Program
 ![](./img/mpc.gif)
 ## Abstract
 
-In the following you will find the development of an **Model Predictive Controller (MPC)**
+In the following you will find the development of a **Model Predictive Controller (MPC)**
 for the vehicle longitudinal and lateral behavior. The controller is getting the position
 error and the rotation error from a simulator as input and controls the **vehicle behavior** with well tuned cost-functions.
 
